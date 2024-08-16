@@ -139,7 +139,7 @@ public class Simulation extends BaseCloudSimObservable implements Constants {
 											DEFAULT_PEAK_USERS,
 											DEFAULT_OFFPEAK_USERS));
 		simulationTime = 3600000.0;
-		System.out.println("data center numbers in default settings: "+dataCenters.size());
+//		System.out.println("data center numbers in default settings: "+dataCenters.size());
 		
 	}
 	

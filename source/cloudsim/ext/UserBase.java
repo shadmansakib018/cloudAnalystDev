@@ -31,6 +31,8 @@ import gridsim.util.Poisson;
  */
 public class UserBase extends CloudSim implements GeoLocatable {
 	
+	private String name;
+	
 	private static final int STANDARD_POISSON_DIST_MEAN = 100;
 	private int region;
 	private int instructionLengthPerRequest;
@@ -71,7 +73,7 @@ public class UserBase extends CloudSim implements GeoLocatable {
 		super(name);
 		
 		System.out.println(GridSim.clock() + " Creating new user base " + get_name());
-		
+		this.name = name;
 		this.region = region;
 		this.instructionLengthPerRequest = instructionLengthPerRequest;
 		this.requestsPerUserPerHour = requestsPerUserPerHour;
@@ -123,9 +125,11 @@ public class UserBase extends CloudSim implements GeoLocatable {
 			
 			userCountForRequest = getOnlineUsers(currTime);
 			requestGroups = getCurrUserCountInGroups(userCountForRequest);
-			System.out.println("perRequestDataSize: " +perRequestDataSize);
+//			System.out.println("perRequestDataSize: " +perRequestDataSize);
 			
 			for (int i = 0; i < requestGroups; i++){
+				perRequestDataSize = getRandomNumber(10,500);
+				System.out.println("userbase name " + name + " perRequestDataSize: " +perRequestDataSize);
 				cloudlet = new InternetCloudlet(get_id() * 100000 + ++id, //Id need not be unique, just used for debugging
 												 instructionLengthPerRequest, 
 												 perRequestDataSize, 
@@ -175,6 +179,11 @@ public class UserBase extends CloudSim implements GeoLocatable {
 		System.out.println(get_name() + " requests sent=" + requestsSent + " , received=" + responsesReceived);
 	}
 
+	
+	public int getRandomNumber(int min, int max) {
+	    return (int) ((Math.random() * (max - min)) + min);
+	}
+	
 	private long getInterRequestDelay(){
 		long avgReqDelay = 3600000 / requestsPerUserPerHour; //ms
 		return (avgReqDelay * requestDelayDistribution.sample() / STANDARD_POISSON_DIST_MEAN );

@@ -1,0 +1,9 @@
+****GiuMain.java****
+The main class of the GUI. Sets up the UI, and controls the screen transitions.
+calls simulation
+
+****simulation.java****
+Main controller class of the simulation.
+constructor calls createDefaultSimulation();
+run simulation starts everything off
+
