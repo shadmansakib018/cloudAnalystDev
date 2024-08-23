@@ -343,7 +343,7 @@ public class DatacenterBroker extends CloudSim {
 			if(this.vmMapping[i]==-1){//if this vm were not mapped yet
 				amountOfVMs++;
 				VMCharacteristics characteristics = ((VirtualMachine)vmlist.get(i)).getCharacteristics();
-				System.out.println(GridSim.clock()+": "+this.get_name()+ ": Trying to Create VM #"+((VirtualMachine)vmlist.get(i)).getVmId());
+				System.out.println("DCB file line 346:" + GridSim.clock()+": "+this.get_name()+ ": Trying to Create VM #"+((VirtualMachine)vmlist.get(i)).getVmId());
 				super.send(datacenterID[chosenDatacenter], GridSimTags.SCHEDULE_NOW, DatacenterTags.VM_CREATE_ACK, characteristics);
 //				Sytem.out.println("VMID: "+characteristics.vmId + " CPUS: " + characteristics.cpus + " memory: " + characteristics.memory);
 			}

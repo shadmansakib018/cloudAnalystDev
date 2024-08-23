@@ -169,7 +169,7 @@ public class Simulation extends BaseCloudSimObservable implements Constants {
 		System.out.println("data center numbers: "+dataCenters.size());
 		
 		for (DataCenterUIElement d : dataCenters) {
-			System.out.println("simulation file line 186: "+d.getName());
+			System.out.println("******************simulation file line 186: "+d.getName());
 			
 			if (d.isAllocated()){
 				DataCenter dc = createDatacenter(d);

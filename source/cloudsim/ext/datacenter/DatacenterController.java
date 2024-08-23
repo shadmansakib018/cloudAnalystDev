@@ -77,7 +77,7 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 		
 		this.dcName = name;
 		
-		System.out.println("Creating new broker " + get_name());
+		System.out.println("DCC file line 80: Creating new broker " + get_name());
 		
 		listeners =new ArrayList<CloudSimEventListener>();
 		
@@ -125,11 +125,11 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 	@Override
 	public void body(){
 
-		System.out.println("Starting broker " + get_id() + " name=" + get_name());
+		System.out.println("DCC file line 128: Starting broker " + get_id() + " name=" + get_name());
 		//queries GIS about available datacenters
 		sim_process(5.0);
 		LinkedList datacenterList = GridSim.getGridResourceList();
-		System.out.println(GridSim.clock()+": "+this.get_name()+ ": Cloud Resource List received with "+datacenterList.size()+" resource(s)");
+		System.out.println("DCC file line 128: "+GridSim.clock()+": "+this.get_name()+ ": Cloud Resource List received with "+datacenterList.size()+" resource(s)");
 		
 		//initilize fields
 		this.datacenters= 1;
@@ -318,7 +318,8 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 	}
 
 	private void submitNewCloudlet(InternetCloudlet cl) {
-		System.out.println("cloudlet ID: " + cl.getCloudletId() + " data size: " + cl.getDataSize());
+		System.out.println("DCC line 321" + " data size: " + cl.getDataSize());
+//		 cl.getCloudletId() +
 		
 		hourlyArrival.addEvent(GridSim.clock(), cl.getRequestCount());
 		if (loadBalancer == null){
@@ -385,7 +386,7 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 	public void createNewVm() {
 
 		if (!lastVmCreateFailed){
-	    	System.out.println("Trying to create vm jjj");
+	    	System.out.println("****create new VM*****");
 	    	
 			VMCharacteristics vm0Char = ((VirtualMachine)vmlist.get(0)).getCharacteristics();
 			

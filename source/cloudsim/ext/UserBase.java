@@ -72,7 +72,7 @@ public class UserBase extends CloudSim implements GeoLocatable {
 					int instructionLengthPerRequest) throws Exception {
 		super(name);
 		
-		System.out.println(GridSim.clock() + " Creating new user base " + get_name());
+		System.out.println(GridSim.clock() + "UB file line 75: Creating new user base " + get_name());
 		this.name = name;
 		this.region = region;
 		this.instructionLengthPerRequest = instructionLengthPerRequest;
@@ -105,7 +105,7 @@ public class UserBase extends CloudSim implements GeoLocatable {
 	
 	@Override
 	public void body(){
-		System.out.println("Starting user base " + get_id() + " " + get_name());
+		System.out.println("UB file line 108: Starting user base " + get_id() + " " + get_name());
 		
 		//Wait for Data Centers to initialize
 		sim_pause(100);
@@ -128,8 +128,8 @@ public class UserBase extends CloudSim implements GeoLocatable {
 //			System.out.println("perRequestDataSize: " +perRequestDataSize);
 			
 			for (int i = 0; i < requestGroups; i++){
-				perRequestDataSize = getRandomNumber(10,500);
-				System.out.println("userbase name " + name + " perRequestDataSize: " +perRequestDataSize);
+				perRequestDataSize = getRandomNumber(300,5000);
+//				System.out.println("userbase name " + name + " perRequestDataSize: " +perRequestDataSize);
 				cloudlet = new InternetCloudlet(get_id() * 100000 + ++id, //Id need not be unique, just used for debugging
 												 instructionLengthPerRequest, 
 												 perRequestDataSize, 

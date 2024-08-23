@@ -1065,7 +1065,7 @@ public class ConfigureSimulationPanel extends JPanel
 		@Override
 		protected void setValueAtInternal(Object value, int row, int col) {
 			UserBaseUIElement ub = data.get(row);
-			System.out.println("updating value of UB table at row col" + row + " " + col);
+			System.out.println("updating value of UB table at row col " + row + " " + col + "value " + value);
 
 			
 			switch (col){
