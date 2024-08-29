@@ -7,6 +7,7 @@ import cloudsim.ext.Constants;
 import cloudsim.ext.event.CloudSimEvent;
 import cloudsim.ext.event.CloudSimEventListener;
 import cloudsim.ext.event.CloudSimEvents;
+import gridsim.GridSim;
 
 /**
  * This class implements {@link VmLoadBalancer} as a Throttled load balancer. Each VM is
@@ -45,16 +46,22 @@ public class ThrottledVmLoadBalancer extends VmLoadBalancer implements CloudSimE
 		int vmId = -1;
 		
 		if (vmStatesList.size() > 0){
+//			while(vmId == -1) {
+				
 			int temp;
 			for (Iterator<Integer> itr = vmStatesList.keySet().iterator(); itr.hasNext();){
 				temp = itr.next();
 				VirtualMachineState state = vmStatesList.get(temp); 
+//				System.out.println(temp + " state: " + state);
 //				System.out.println(temp + " state is " + state + " total vms " + vmStatesList.size());
 				if (state.equals(VirtualMachineState.AVAILABLE)){
 					vmId = temp;
+//					System.out.println(vmId);
 					break;
 				}
 			}
+			System.out.println("asigned vm: " + vmId);
+//			}
 		}
 		
 		allocatedVm(vmId);
@@ -64,11 +71,14 @@ public class ThrottledVmLoadBalancer extends VmLoadBalancer implements CloudSimE
 	}
 	
 	public void cloudSimEventFired(CloudSimEvent e) {
+//		System.out.println(GridSim.clock());
 		if (e.getId() == CloudSimEvents.EVENT_CLOUDLET_ALLOCATED_TO_VM){
 			int vmId = (Integer) e.getParameter(Constants.PARAM_VM_ID);
+//			System.out.println(vmId + " is busy");
 			vmStatesList.put(vmId, VirtualMachineState.BUSY);
 		} else if (e.getId() == CloudSimEvents.EVENT_VM_FINISHED_CLOUDLET){
 			int vmId = (Integer) e.getParameter(Constants.PARAM_VM_ID);
+//			System.out.println(vmId + " is available");
 			vmStatesList.put(vmId, VirtualMachineState.AVAILABLE);
 		}
 	}

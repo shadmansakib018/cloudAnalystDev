@@ -157,8 +157,8 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
             processEvent(ev);
         }
         
-        System.out.println(get_name() + " finalizing, submitted cloudlets=" + cloudletsSubmitted 
-        					+ " processing cloudlets=" + processingCloudletStatuses.size() + " ,allRequestsProcessed=" + allRequestsProcessed);
+//        System.out.println(get_name() + " finalizing, submitted cloudlets=" + cloudletsSubmitted 
+//        					+ " processing cloudlets=" + processingCloudletStatuses.size() + " ,allRequestsProcessed=" + allRequestsProcessed);
 	}//body
 
 	@Override
@@ -185,10 +185,7 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 	}
 
 
-	/**
-	 * Handle responses returning for request previously handled.
-	 * @param cl
-	 */
+	
 	private void handleResponseCloudlet(InternetCloudlet cl) {
 		
 		cloudletCompletedProcessing(cl);
@@ -210,6 +207,8 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 		if (parentReqStatus[1] == 0){
 			double endTime = GridSim.clock();
 			double thisProcessingTime = (endTime - startTime);
+//			System.out.println(cl.getDataSize());
+			System.out.println("processing time: " + thisProcessingTime);
 			
 			InternetCloudlet responseCloudlet = new InternetCloudlet(parentRequest, 
 																	 0, 
@@ -224,7 +223,7 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 			stat.update(DC_SERVICE_TIME, startTime, endTime);
 			hourlyProcessingTimes.update(startTime, endTime);
 			
-			//System.out.println(endTime + ": DC processing time for " + parentRequest + "=" + thisProcessingTime + " in vm " + cl.getVmId() + " and current processingqueue=" + processingCloudletStatuses.size());
+//			System.out.println(endTime + ": DC processing time for " + parentRequest + "=" + thisProcessingTime + " in vm " + cl.getVmId() + " and current processingqueue=" + processingCloudletStatuses.size());
 			
 			InternetCharacteristics.getInstance().updateSerivceLatency(get_name(), thisProcessingTime);
 		}
@@ -252,6 +251,7 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 	 */
 	private void handleRequestCloudlet(InternetCloudlet cl) {
 		
+		
 		//Reflect completion of request transmission in traffic levels
 		InternetCharacteristics.getInstance().removeTraffic((CommPath) cl.getData(Constants.PARAM_COMM_PATH), 
 															 cl.getRequestCount());
@@ -274,6 +274,8 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 																cl.getAppId(),
 																requestsPerCloudlet);
 			subCloudlet.setParentId(cl.getCloudletId());
+			System.out.println("data size "+subCloudlet.getDataSize());
+			System.out.println("Task submitted" + GridSim.clock());
 			submitNewCloudlet(subCloudlet);	
 		}
 		
@@ -293,6 +295,7 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 				    
 		totalData += cl.getDataSize();
 		long startTime = (long) GridSim.clock();
+//		System.out.println("***********Starting time "+startTime);
 		
 		//System.out.println(startTime + ": " + get_name() + " started processing " + cl.getCloudletId());
 		processingCloudletStatuses.put(cl.getCloudletId(), new Long[]{(long) numOfActualRequests, 0L, startTime});		
@@ -318,6 +321,7 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 	}
 
 	private void submitNewCloudlet(InternetCloudlet cl) {
+//		System.out.println("" + GridSim.clock());
 		System.out.println("DCC line 321" + " data size: " + cl.getDataSize());
 //		 cl.getCloudletId() +
 		
@@ -329,8 +333,8 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 		int nextAvailVM = loadBalancer.getNextAvailableVm();
 					
 		if (nextAvailVM == -1){
-			//All VM's are busy. Put it in queue
-			//System.out.println("VM's busy, queueing " + cl);
+//			All VM's are busy. Put it in queue
+			System.out.println("VM's busy, queueing " + cl);
 			waitingQueue.add(cl);	
 			
 			queuedCount++;
@@ -509,6 +513,10 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 	public int getAllRequestsProcessed() {
 		return allRequestsProcessed;
 	}
+	/**
+	 * Handle responses returning for request previously handled.
+	 * @param cl
+	 */
 	
 	
 }
