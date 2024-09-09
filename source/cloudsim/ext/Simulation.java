@@ -147,7 +147,7 @@ public class Simulation extends BaseCloudSimObservable implements Constants {
 	 * Creates and runs the simulation from the configuration obtained by the GUI.
 	 */
 	public void runSimulation() throws Exception {
-		System.out.println("Starting Simulation...");
+		System.out.println("****************Starting Simulation************");
 		
 	
 		//Set up stuff
@@ -166,7 +166,7 @@ public class Simulation extends BaseCloudSimObservable implements Constants {
 		dcbs  = new ArrayList<DatacenterController>();
 		dcs =  new ArrayList<DataCenter>();
 		
-		System.out.println("data center numbers: "+dataCenters.size());
+		System.out.println("SAKIBBBBB data center numbers: "+dataCenters.size());
 		
 		for (DataCenterUIElement d : dataCenters) {
 			System.out.println("******************simulation file line 186: "+d.getName());

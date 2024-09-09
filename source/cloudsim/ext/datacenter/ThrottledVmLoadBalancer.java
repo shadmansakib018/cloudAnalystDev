@@ -46,22 +46,16 @@ public class ThrottledVmLoadBalancer extends VmLoadBalancer implements CloudSimE
 		int vmId = -1;
 		
 		if (vmStatesList.size() > 0){
-//			while(vmId == -1) {
 				
 			int temp;
 			for (Iterator<Integer> itr = vmStatesList.keySet().iterator(); itr.hasNext();){
 				temp = itr.next();
 				VirtualMachineState state = vmStatesList.get(temp); 
-//				System.out.println(temp + " state: " + state);
-//				System.out.println(temp + " state is " + state + " total vms " + vmStatesList.size());
 				if (state.equals(VirtualMachineState.AVAILABLE)){
 					vmId = temp;
-//					System.out.println(vmId);
 					break;
 				}
 			}
-			System.out.println("asigned vm: " + vmId);
-//			}
 		}
 		
 		allocatedVm(vmId);

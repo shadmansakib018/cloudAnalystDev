@@ -46,6 +46,8 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 																		  Constants {
 	
 	//changed here
+//	private Map<Integer, String> VMSTATES;
+	// till here
 	
 	private List<CloudSimEventListener> listeners;
 	private VmLoadBalancer loadBalancer;
@@ -106,7 +108,7 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 		} else if (loadBalancePolicy.equals(Constants.LOAD_BALANCE_POLICY_RR)){
 			this.loadBalancer = new RoundRobinVmLoadBalancer(vmStatesList);
 		}else if (loadBalancePolicy.equals(Constants.LOAD_BALANCE_GA)){
-			this.loadBalancer = new GeneticAlgorithmVMLB(this);
+			this.loadBalancer = new GeneticAlgorithmVMLB(this, vmStatesList);
 		}
 		else { //i.e. if (loadBalancePolicy.equals(Constants.LOAD_BALANCE_THROTTLED))
 			this.loadBalancer = new ThrottledVmLoadBalancer(this);
@@ -208,7 +210,7 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 			double endTime = GridSim.clock();
 			double thisProcessingTime = (endTime - startTime);
 //			System.out.println(cl.getDataSize());
-			System.out.println("processing time: " + thisProcessingTime);
+//			System.out.println("processing time: " + thisProcessingTime);
 			
 			InternetCloudlet responseCloudlet = new InternetCloudlet(parentRequest, 
 																	 0, 
@@ -322,7 +324,7 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 
 	private void submitNewCloudlet(InternetCloudlet cl) {
 //		System.out.println("" + GridSim.clock());
-		System.out.println("DCC line 321" + " data size: " + cl.getDataSize());
+//		System.out.println("DCC line 321" + " data size: " + cl.getDataSize());
 //		 cl.getCloudletId() +
 		
 		hourlyArrival.addEvent(GridSim.clock(), cl.getRequestCount());
@@ -358,6 +360,8 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 		//Notify load balancer
 		CloudSimEvent e = new CloudSimEvent(CloudSimEvents.EVENT_CLOUDLET_ALLOCATED_TO_VM);
 		e.addParameter(Constants.PARAM_VM_ID, vmId);
+//		VMSTATES.put(vmId, "BUSY");
+		System.out.println("event fired BUSY VMID: "+ vmId);
 		fireCloudSimEvent(e);
 		
 		String destName = GridSim.getEntityName(dest);

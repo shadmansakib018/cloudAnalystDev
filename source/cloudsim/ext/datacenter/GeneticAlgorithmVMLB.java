@@ -20,101 +20,70 @@ import cloudsim.ext.event.CloudSimEvents;
  *
  */
 public class GeneticAlgorithmVMLB extends VmLoadBalancer implements CloudSimEventListener {
-	/** Holds the count current active allcoations on each VM */
-	private Map<Integer, Integer> currentAllocationCounts;
 	private Map<Integer, VirtualMachineState> vmStatesList;
-	private Integer lastVmID = -1;
-	
-	public GeneticAlgorithmVMLB(DatacenterController dcb){
-		dcb.addCloudSimEventListener(this);
-		this.vmStatesList = dcb.getVmStatesList();
-		this.currentAllocationCounts = Collections.synchronizedMap(new HashMap<Integer, Integer>());
+	private int currVm = -1;
+	private Map<Integer, Integer> currentAllocationCounts;
+
+
+	public GeneticAlgorithmVMLB(DatacenterController dcb, Map<Integer, VirtualMachineState> vmStatesList){
+		super();
+		System.out.println("*********hello*********");
 		
+		this.vmStatesList = vmStatesList;
+		dcb.addCloudSimEventListener(this);
+		this.currentAllocationCounts = Collections.synchronizedMap(new HashMap<Integer, Integer>());
 	}
 
-	/**
-	 * @return The VM id of a VM so that the number of active tasks on each VM is kept
-	 * 			evenly distributed among the VMs.
+	/* (non-Javadoc)
+	 * @see cloudsim.ext.VMLoadBalancer#getVM()
 	 */
-	@Override
 	public int getNextAvailableVm(){
+		currVm++;
 		
-		int vmId = -1;
-		System.out.println("current allocated VM's: "+currentAllocationCounts.size());
+		if (currVm >= vmStatesList.size()){
+			currVm = 0;
+		}
 		
-//		for (int thisVmId : currentAllocationCounts.keySet()){
-//			System.out.println(thisVmId + "======> " + currentAllocationCounts.get(thisVmId));
-//		}
-		
-		//Find the vm with least number of allocations
-		
-		//If all available vms are not allocated, allocated the new ones
-		if (currentAllocationCounts.size() < vmStatesList.size()){			
-			for (int availableVmId : vmStatesList.keySet()){
-				if (!currentAllocationCounts.containsKey(availableVmId) && lastVmID != availableVmId){
-					vmId = availableVmId;
-					lastVmID = availableVmId;
-					break;
-				}				
-			}
-		} else {
-			int currCount;
-			int minCount = Integer.MAX_VALUE;
+		if (vmStatesList.size() > 0){
 			
-			for (int thisVmId : currentAllocationCounts.keySet()){
-				if(lastVmID != thisVmId) {
-				currCount = currentAllocationCounts.get(thisVmId);
-				if (currCount < minCount){
-					minCount = currCount;
-					vmId = thisVmId;
-					lastVmID = thisVmId;
+			int temp;
+			for (Iterator<Integer> itr = vmStatesList.keySet().iterator(); itr.hasNext();){
+				temp = itr.next();
+//				System.out.println("temp: "+ temp + "====== currVm: " + currVm );
+				if(temp < currVm) {
+					continue;
 				}
+				VirtualMachineState state = vmStatesList.get(temp); 
+//				System.out.println(temp + "===>"+state);
+				if (state.equals(VirtualMachineState.AVAILABLE)){
+					currVm = temp;
+					break;
 				}
 			}
 		}
-//		if(vmId == -1) {
-//			vmId = (lastVmID+1)%vmStatesList.size();
-//			lastVmID = vmId;
-//			System.out.println("in round robin: ");
-//		}
-//		System.out.println("Allocated VmID: " + vmId);
-		allocatedVm(vmId);
+//		System.out.println("Allocated VM: "+currVm);
 		
-		Integer currCount = currentAllocationCounts.remove(vmId);
-		if (currCount == null){
-			currCount = 1;
-		} else {
-			currCount++;
-		}
 		
-		currentAllocationCounts.put(vmId, currCount);
+		allocatedVm(currVm);
 		
-		return vmId;
+		return currVm;
 		
 	}
 	
 	public void cloudSimEventFired(CloudSimEvent e) {
+//		System.out.println(GridSim.clock());
 		if (e.getId() == CloudSimEvents.EVENT_CLOUDLET_ALLOCATED_TO_VM){
 			int vmId = (Integer) e.getParameter(Constants.PARAM_VM_ID);
-			
-			Integer currCount = currentAllocationCounts.remove(vmId);
-			if (currCount == null){
-				currCount = 1;
-			} else {
-				currCount++;
-			}
-			
-			currentAllocationCounts.put(vmId, currCount);
-			
-		} 
-		else if (e.getId() == CloudSimEvents.EVENT_VM_FINISHED_CLOUDLET){
+//			System.out.println(vmId + " is busy");
+			System.out.println("getting busy VMID "+  vmId);
+
+			vmStatesList.put(vmId, VirtualMachineState.BUSY);
+		} else if (e.getId() == CloudSimEvents.EVENT_VM_FINISHED_CLOUDLET){
 			int vmId = (Integer) e.getParameter(Constants.PARAM_VM_ID);
-//			System.out.println("this vmid is now free====> "+vmId);
-			Integer currCount = currentAllocationCounts.remove(vmId);
-			if (currCount != null){
-				currCount--;
-				currentAllocationCounts.put(vmId, currCount);
-			}
+//			System.out.println(vmId + " is available");
+			vmStatesList.put(vmId, VirtualMachineState.AVAILABLE);
+			System.out.println("getting available VMID "+  vmId);
+//			vmStatesList.put(0, VirtualMachineState.BUSY);
 		}
 	}
 

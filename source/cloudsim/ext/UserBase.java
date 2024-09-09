@@ -129,7 +129,7 @@ public class UserBase extends CloudSim implements GeoLocatable {
 //			System.out.println("perRequestDataSize: " +perRequestDataSize);
 			
 			for (int i = 0; i < requestGroups; i++){
-				perRequestDataSize = getRandomNumber(20,8000000);
+				perRequestDataSize = getRandomNumber(500, 3000);
 //				System.out.println("userbase name " + name + " perRequestDataSize: " +perRequestDataSize);
 				cloudlet = new InternetCloudlet(get_id() * 100000 + ++id, //Id need not be unique, just used for debugging
 												 instructionLengthPerRequest, 
@@ -138,7 +138,7 @@ public class UserBase extends CloudSim implements GeoLocatable {
 												 this, 
 												 Constants.DEFAULT_APP_ID,
 												 userGroupingFactor);
-				System.out.println("Task created " + GridSim.clock());
+//				System.out.println("Task created " + GridSim.clock());
 				
 				send(Constants.INTERNET, 0.0, Constants.REQUEST_INTERNET_CLOUDLET_TAG, cloudlet);
 				messagesSent++;
