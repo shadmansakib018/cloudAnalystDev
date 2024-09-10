@@ -103,16 +103,19 @@ public class DatacenterController extends DatacenterBroker implements GeoLocatab
 		waitingQueue = Collections.synchronizedList(new LinkedList<InternetCloudlet>());
 		processingCloudletStatuses = new HashMap<Integer, Long[]>();
 		
-		if (loadBalancePolicy.equals(Constants.LOAD_BALANCE_ACTIVE)){
-			this.loadBalancer = new ActiveVmLoadBalancer(this);
-		} else if (loadBalancePolicy.equals(Constants.LOAD_BALANCE_POLICY_RR)){
-			this.loadBalancer = new RoundRobinVmLoadBalancer(vmStatesList);
-		}else if (loadBalancePolicy.equals(Constants.LOAD_BALANCE_GA)){
-			this.loadBalancer = new GeneticAlgorithmVMLB(this, vmStatesList);
-		}
-		else { //i.e. if (loadBalancePolicy.equals(Constants.LOAD_BALANCE_THROTTLED))
-			this.loadBalancer = new ThrottledVmLoadBalancer(this);
-		}
+//		if (loadBalancePolicy.equals(Constants.LOAD_BALANCE_ACTIVE)){
+//			this.loadBalancer = new ActiveVmLoadBalancer(this);
+//		} else if (loadBalancePolicy.equals(Constants.LOAD_BALANCE_POLICY_RR)){
+//			this.loadBalancer = new RoundRobinVmLoadBalancer(vmStatesList);
+//		}else if (loadBalancePolicy.equals(Constants.LOAD_BALANCE_GA)){
+//			this.loadBalancer = new GeneticAlgorithmVMLB(this, vmStatesList);
+//		}
+//		else { //i.e. if (loadBalancePolicy.equals(Constants.LOAD_BALANCE_THROTTLED))
+//			this.loadBalancer = new ThrottledVmLoadBalancer(this);
+//		}
+		
+		this.loadBalancer = new GeneticAlgorithmVMLB(this, vmStatesList);
+		System.out.println("load balancing algo: "+this.loadBalancer);
 		
 	}
 	

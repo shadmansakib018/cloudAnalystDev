@@ -7,8 +7,8 @@
 Version: SimJava 2.0
 
 Simulation date:         September 9, 2024
-Simulation start time:   12:46:56 PM CDT
-Simulation end time:     12:46:57 PM CDT
+Simulation start time:   1:12:10 PM CDT
+Simulation end time:     1:12:10 PM CDT
 
 ############################################################
 #            Overall simulation run information            #
@@ -29,19 +29,19 @@ Output analysis method:  None
 
 - Service time
 
-Sample mean:          0.433480950183334
-Sample variance:      0.06782240471280053
-Sample std deviation: 0.26042735016276714
-Maximum:              0.8903133243438788
-Minimum:              0.0936192786321044
+Sample mean:          0.43510113587691895
+Sample variance:      0.06655568057604301
+Sample std deviation: 0.25798387658154726
+Maximum:              0.9684650767594576
+Minimum:              0.10660305932105985
 
 - Overloading status : DC1-Broker-0
 
-Sample mean:          0.433480950183334
-Sample variance:      0.06782240471280053
-Sample std deviation: 0.26042735016276714
-Maximum:              0.8903133243438788
-Minimum:              0.0936192786321044
+Sample mean:          0.43510113587691895
+Sample variance:      0.06655568057604301
+Sample std deviation: 0.25798387658154726
+Maximum:              0.9684650767594576
+Minimum:              0.10660305932105985
 
 - Overloading status : DC1-Broker-1
 
@@ -231,19 +231,19 @@ Minimum:              0.0
 
 - UB Response time
 
-Sample mean:          300.308635618813
-Sample variance:      434.14116561509786
-Sample std deviation: 20.8360544637198
-Maximum:              369.33800550994056
-Minimum:              237.31383075611666
+Sample mean:          300.3114457972764
+Sample variance:      434.238848618418
+Sample std deviation: 20.838398417786767
+Maximum:              369.3788889596035
+Minimum:              237.40069723548368
 
 - Hourly Response Time-0
 
-Sample mean:          300.308635618813
-Sample variance:      434.14116561509786
-Sample std deviation: 20.8360544637198
-Maximum:              369.33800550994056
-Minimum:              237.31383075611666
+Sample mean:          300.3114457972764
+Sample variance:      434.238848618418
+Sample std deviation: 20.838398417786767
+Maximum:              369.3788889596035
+Minimum:              237.40069723548368
 
 - Hourly Response Time-1
 
